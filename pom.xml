@@ -13,7 +13,7 @@
     <groupId>com.douzi</groupId>
     <artifactId>greenhouse_system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>logistics_interest</name>
+    <name>greenhouse_system</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

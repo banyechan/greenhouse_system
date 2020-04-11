@@ -18,15 +18,16 @@
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://127.0.0.1:3306/greenhouse_system?characterEncoding=utf8"
                         userId="root"
-                        password="123456">
+                        password="root123">
         </jdbcConnection>
+
 
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
         <!-- 数据表对应的model 层  	 javabeen生成的地方   -->
-        <javaModelGenerator targetPackage="com.chyer.logistics_interest.entity" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.douzi.greenhouse_system.entity" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -38,7 +39,7 @@
         </sqlMapGenerator>
 
         <!-- mapper接口生成的地方-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.chyer.logistics_interest.mapper"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.douzi.greenhouse_system.mapper"
                              targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>

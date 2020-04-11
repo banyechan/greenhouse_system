@@ -22,5 +22,5 @@ ${AnsiColor.BRIGHT_GREEN}
          .............................................
                   佛祖保佑                  永无BUG
 
- logistics_interest ( version: 1.0.0 ) ＼(^O^)／  Spring-Boot( version: ${spring-boot.version} )
+ greenhouse_system ( version: 1.0.0 ) ＼(^O^)／  Spring-Boot( version: ${spring-boot.version} )
  ${AnsiColor.BRIGHT_GREEN}

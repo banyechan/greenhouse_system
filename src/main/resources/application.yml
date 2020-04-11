@@ -4,30 +4,22 @@ server:
 
 spring:
   application:
-    name: logistics_interest
+    name: greenhouse_system
   resources:
     static-locations: classpath:/
   # 数据源
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 123456
-    url: jdbc:mysql://127.0.0.1:3306/greenhouse_system?characterEncoding=utf8&useSSL=false
+    password: root123
+    url: jdbc:mysql://127.0.0.1:3306/greenhouse_system?useSSL=FALSE&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Shanghai
 
 
-baidu:
-  map:
-    ak: FIkaMovHOv5VAG1Ew9BbjKs8M6w7LvN7
-
-gould:
-  map:
-    key: d73af80e885c11bd5bf046a0e612225e
-
-
+   # jdbc:mysql://127.0.0.1:3306/greenhouse_system?characterEncoding=utf8&useSSL=false
 
 
 # mybaits 模块配置
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.bandweaver.maxtunnelem.entity
+  type-aliases-package: com.douzi.greenhouse_system.entity
 
