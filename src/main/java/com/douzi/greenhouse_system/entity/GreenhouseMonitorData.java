@@ -1,8 +1,10 @@
 package com.douzi.greenhouse_system.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class GreenhouseMonitorData {
+public class GreenhouseMonitorData implements Serializable {
+    private static final long serialVersionUID = -2702624609137023350L;
     private Integer id;
 
     private Integer greenhouseId;
@@ -24,6 +26,12 @@ public class GreenhouseMonitorData {
     private Double sundata;
 
     private Date datetime;
+
+    /**开始时间*/
+    private Date startTime;
+
+    /**结束时间*/
+    private Date endTime;
 
     public Integer getId() {
         return id;
@@ -111,5 +119,21 @@ public class GreenhouseMonitorData {
 
     public void setDatetime(Date datetime) {
         this.datetime = datetime;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

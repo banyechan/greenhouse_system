@@ -32,11 +32,20 @@
         limit 0,1
     </select>
 
-    <select id="listHistory" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="listByMap" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from greenhouse_monitor_data
-        order by datetime desc limit 0,7
+        <where>
+            1=1
+            <if test="startTime != null">
+                and datetime &gt;= #{startTime}
+            </if>
+            <if test="endTime != null">
+                and datetime &lt;= #{endTime}
+            </if>
+        </where>
+        order by datetime desc
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

@@ -3,16 +3,15 @@ package com.douzi.greenhouse_system.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.douzi.greenhouse_system.entity.GreenhouseMonitorData;
 import com.douzi.greenhouse_system.service.GreenhouseMonitorDataService;
+import com.douzi.greenhouse_system.utils.DateUtil;
 import com.douzi.greenhouse_system.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @Slf4j
@@ -30,20 +29,31 @@ public class HomeController {
         return result;
     }
 
-
+    //查询最新的一条数据
     @GetMapping("/now")
     public R getNewData(){
         GreenhouseMonitorData result = greenhouseMonitorDataService.getTheNewest();
         return new R(result);
     }
 
-
-    @GetMapping("/history")
-    public R listHistory(){
+    //根据时间段，查询历史记录
+    @PostMapping("/history")
+    public R listHistory(@RequestBody(required = false) GreenhouseMonitorData greenhouseMonitor) throws ParseException {
         List<JSONObject> result = new ArrayList<JSONObject>();
-        List<GreenhouseMonitorData> list = greenhouseMonitorDataService.listHistory();
-        String key = "key";
-        String val = "val";
+
+        Date startTime = DateUtil.getDayBegin();
+        Date endTime = DateUtil.getDayEnd();
+        Map<String,Object> map = new HashMap<>();
+        if(greenhouseMonitor != null && greenhouseMonitor.getStartTime() != null){
+            startTime = greenhouseMonitor.getStartTime();
+        }
+        if(greenhouseMonitor != null && greenhouseMonitor.getStartTime() != null){
+            endTime = greenhouseMonitor.getEndTime();
+        }
+
+        map.put("startTime",startTime);
+        map.put("endTime",endTime);
+        List<GreenhouseMonitorData> list = greenhouseMonitorDataService.listHistory(map);
         if(list != null && list.size() > 0){
             List<JSONObject> airtempValueList = new ArrayList();
             List<JSONObject> airhumiValueList = new ArrayList();
@@ -56,8 +66,8 @@ public class HomeController {
                 String dateTime = sdf.format(tem.getDatetime());
 
                 JSONObject airtempValue = new JSONObject();
-                airtempValue.put(key,dateTime);
-                airtempValue.put(val,tem.getAirtemp());
+                airtempValue.put("key",dateTime);
+                airtempValue.put("val",tem.getAirtemp());
                 airtempValueList.add(airtempValue);
 
                 JSONObject airhumiValue = new JSONObject();
@@ -89,18 +99,18 @@ public class HomeController {
             }
 
             JSONObject airtemp = new JSONObject();
-            airtemp.put(key,"空气温度");
-            airtemp.put(val,airtempValueList);
+            airtemp.put("key","空气温度");
+            airtemp.put("val",airtempValueList);
             result.add(airtemp);
 
             JSONObject airhumi = new JSONObject();
-            airhumi.put(key,"空气湿度");
-            airhumi.put(val,airhumiValueList);
+            airhumi.put("key","空气湿度");
+            airhumi.put("val",airhumiValueList);
             result.add(airhumi);
 
             JSONObject soiltemp = new JSONObject();
-            soiltemp.put(key,"土壤温度");
-            soiltemp.put(val,soiltempList);
+            soiltemp.put("key","土壤温度");
+            soiltemp.put("val",soiltempList);
             result.add(soiltemp);
 
             JSONObject soilhumi = new JSONObject();
@@ -121,8 +131,5 @@ public class HomeController {
 
         return new R(result);
     }
-
-
-
 
 }

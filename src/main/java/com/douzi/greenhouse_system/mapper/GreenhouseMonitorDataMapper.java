@@ -4,6 +4,7 @@ import com.douzi.greenhouse_system.entity.GreenhouseMonitorData;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface GreenhouseMonitorDataMapper {
@@ -22,6 +23,6 @@ public interface GreenhouseMonitorDataMapper {
 
     GreenhouseMonitorData selectTheFirst();
 
-    List<GreenhouseMonitorData> listHistory();
+    List<GreenhouseMonitorData> listByMap(Map<String,Object> map);
 
 }
