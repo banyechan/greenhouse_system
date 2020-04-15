@@ -36,21 +36,30 @@ public class HomeController {
         return new R(result);
     }
 
-    //根据时间段，查询历史记录
+    /**
+     * 根据时间段，查询历史记录
+     *   返回的数据结构，是为了满足前端页面数据展示的需要
+     */
     @PostMapping("/history")
     public R listHistory(@RequestBody(required = false) GreenhouseMonitorData greenhouseMonitor) throws ParseException {
         List<JSONObject> result = new ArrayList<JSONObject>();
-
-        Date startTime = DateUtil.getDayBegin();
-        Date endTime = DateUtil.getDayEnd();
-        Map<String,Object> map = new HashMap<>();
-        if(greenhouseMonitor != null && greenhouseMonitor.getStartTime() != null){
+        Date startTime = null;
+        Date endTime = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(greenhouseMonitor != null && greenhouseMonitor.getStartTime() != null
+            && greenhouseMonitor.getEndTime() != null){
             startTime = greenhouseMonitor.getStartTime();
-        }
-        if(greenhouseMonitor != null && greenhouseMonitor.getStartTime() != null){
             endTime = greenhouseMonitor.getEndTime();
+        }else{
+            //如果没有输入时间,默认取最新一条记录，往前推24小时之间的数据
+            GreenhouseMonitorData newestOne = greenhouseMonitorDataService.getTheNewest();
+            if(newestOne != null){
+                endTime = newestOne.getDatetime();
+                startTime = DateUtil.getBeforHour(newestOne.getDatetime(),24);
+            }
         }
 
+        Map<String,Object> map = new HashMap<>();
         map.put("startTime",startTime);
         map.put("endTime",endTime);
         List<GreenhouseMonitorData> list = greenhouseMonitorDataService.listHistory(map);
@@ -62,7 +71,6 @@ public class HomeController {
             List<JSONObject> co2List = new ArrayList();
             List<JSONObject> sundataList = new ArrayList();
             for (GreenhouseMonitorData tem : list){
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String dateTime = sdf.format(tem.getDatetime());
 
                 JSONObject airtempValue = new JSONObject();
@@ -81,15 +89,15 @@ public class HomeController {
                 soiltempList.add(soiltempValue);
 
                 //土壤湿度 取三个湿度值的平均值
-                double avgSoilHumi = (tem.getSoilhumi1() + tem.getSoilhumi2() + tem.getSoilhumi3()) / 3;
+                double avgSoilHumi = (tem.getSoilhumi1() + tem.getSoilhumi2() + tem.getSoilhumi3()) / 3000;
                 JSONObject soilhumi = new JSONObject();
                 soilhumi.put("key",dateTime);
-                soilhumi.put("val",avgSoilHumi);
+                soilhumi.put("val",String.format("%.2f", avgSoilHumi)); //保留两位小数
                 soilhumiList.add(soilhumi);
 
                 JSONObject co2Value = new JSONObject();
                 co2Value.put("key",dateTime);
-                co2Value.put("val",tem.getCo2());
+                co2Value.put("val",String.format("%.2f", (tem.getCo2()/10)));
                 co2List.add(co2Value);
 
                 JSONObject sundateValue = new JSONObject();
@@ -131,5 +139,14 @@ public class HomeController {
 
         return new R(result);
     }
+
+
+    public static void main(String[] args) {
+        Date today = new Date();
+        System.out.println("---- today =" + today);
+        Date yesterday = DateUtil.getBeforHour(today,24);
+        System.out.println("---- yesterday =" + yesterday);
+    }
+
 
 }

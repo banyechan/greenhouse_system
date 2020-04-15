@@ -4,6 +4,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/**
+ *  日期工具类
+ */
 public class DateUtil {
 
     /**
@@ -32,6 +35,17 @@ public class DateUtil {
     }
 
 
+    /**
+     * 获取前n个小时的时间
+     * @param date
+     * @param hour
+     */
+    public static Date getBeforHour(Date date, int hour) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) - hour);
+        return c.getTime();
+    }
 
 
 

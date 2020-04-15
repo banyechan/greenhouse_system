@@ -3,6 +3,9 @@ package com.douzi.greenhouse_system.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 温室监控数据 实体类
+ */
 public class GreenhouseMonitorData implements Serializable {
     private static final long serialVersionUID = -2702624609137023350L;
     private Integer id;
