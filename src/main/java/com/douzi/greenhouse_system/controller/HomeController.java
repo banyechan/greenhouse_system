@@ -140,13 +140,4 @@ public class HomeController {
         return new R(result);
     }
 
-
-    public static void main(String[] args) {
-        Date today = new Date();
-        System.out.println("---- today =" + today);
-        Date yesterday = DateUtil.getBeforHour(today,24);
-        System.out.println("---- yesterday =" + yesterday);
-    }
-
-
 }
