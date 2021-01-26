@@ -2,11 +2,14 @@ package com.douzi.greenhouse_system.mapper;
 
 import com.douzi.greenhouse_system.entity.StudentModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Mapper
+@Repository
 public interface StudentModelMapper {
 
     int deleteByPrimaryKey(Integer id);
@@ -25,5 +28,8 @@ public interface StudentModelMapper {
 
     List<StudentModel> listStudent();
 
+    List<Map<String,String>> getCountBySex();
+
+    Object selectById(Integer id);
 
 }

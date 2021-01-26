@@ -14,4 +14,8 @@ public interface GreenhouseMonitorDataService {
     // 查询历史记录
     List<GreenhouseMonitorData> listHistory(Map<String,Object> map);
 
+    //异步线程测试
+    void register();
+
+
 }

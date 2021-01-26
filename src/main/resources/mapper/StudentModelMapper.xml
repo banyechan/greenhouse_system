@@ -24,6 +24,14 @@
     </select>
 
 
+    <select id="selectById" parameterType="java.lang.Integer" resultType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from student
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+
     <select id="listByCondition" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -44,6 +52,16 @@
             </if>
         </where>
     </select>
+
+
+
+    <select id="getCountBySex" resultType="java.util.HashMap">
+        select sex as type ,count(s.sex) as num
+        from student s
+        group by s.sex
+    </select>
+
+
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from student

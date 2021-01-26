@@ -1,7 +1,9 @@
 package com.douzi.greenhouse_system.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.douzi.greenhouse_system.config.SystemCache;
 import com.douzi.greenhouse_system.entity.GreenhouseMonitorData;
+import com.douzi.greenhouse_system.entity.MiddleStudent;
 import com.douzi.greenhouse_system.service.GreenhouseMonitorDataService;
 import com.douzi.greenhouse_system.utils.DateUtil;
 import com.douzi.greenhouse_system.utils.R;
@@ -22,12 +24,56 @@ public class HomeController {
     @Autowired
     private GreenhouseMonitorDataService greenhouseMonitorDataService;
 
+
+
+    private Map<String,Object> temCache = SystemCache.cacheMap;
+
+
     //项目初建时，测试用例，可删
     @RequestMapping("/index")
     public String welcome(){
         String result = "春江潮水连海平，海上明月共潮生。";
         return result;
     }
+
+    @GetMapping(value = "/test")
+    public Object test(){
+        for (int i = 0; i < 10; i++) {
+            greenhouseMonitorDataService.register();
+        }
+        System.out.println("主线程结束");
+        return "OK";
+    }
+
+
+
+
+    //项目初建时，测试用例，可删
+    @RequestMapping("/cache")
+    public String getCache(@RequestParam("key") String key){
+        String result = "春江潮水连海平，海上明月共潮生。";
+        System.out.println("=========== temCache ==="  + temCache);
+        log.info("temCache={}",temCache);
+        if(temCache != null && temCache.containsKey(key)){
+            temCache.put(key,"中华");
+            result = temCache.get(key).toString();
+        }
+
+
+        MiddleStudent middleStudent = new MiddleStudent();
+        middleStudent.setId(10);
+        middleStudent.setAge(18);
+        middleStudent.setName("杨超越");
+
+        middleStudent.setGrade(2);
+        middleStudent.setSchlool("中华艺术宫");
+
+        log.info("----middleStudent={}",middleStudent);
+        return result;
+    }
+
+
+
 
     //查询最新的一条数据
     @GetMapping("/now")

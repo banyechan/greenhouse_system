@@ -2,11 +2,13 @@ package com.douzi.greenhouse_system.mapper;
 
 import com.douzi.greenhouse_system.entity.GreenhouseMonitorData;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
 @Mapper
+@Repository
 public interface GreenhouseMonitorDataMapper {
 
     int deleteByPrimaryKey(Integer id);

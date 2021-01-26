@@ -5,8 +5,11 @@ import com.douzi.greenhouse_system.mapper.StudentModelMapper;
 import com.douzi.greenhouse_system.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
+
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -46,6 +49,25 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<StudentModel> listAllStudent() {
         return studentMapper.listStudent();
+    }
+
+    @Override
+    public List<Map<String,String>> getCountBySex() {
+        return studentMapper.getCountBySex();
+    }
+
+    @Override
+    public Object getById(Integer id) {
+        Object result = studentMapper.selectById(id);
+        System.out.println("------object = " + result);
+        return result;
+    }
+
+
+
+    public ServerEndpointExporter a (){
+
+        return null;
     }
 
 

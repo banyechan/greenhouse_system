@@ -6,7 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -48,4 +50,28 @@ public class StudentController {
         return studentService.deleteStudent(id);
     }
 
+
+    @GetMapping("/getMap")
+    public Map<String,String> getCountBySex() {
+        log.info("----  调用getCountBySex -----");
+        Map<String,String> map = new HashMap<>();
+        List<Map<String,String>> mapList = studentService.getCountBySex();
+        if(mapList != null && mapList.size() > 0){
+            for(Map tem : mapList){
+                log.info("key = {},value = {}",tem.get("type"),tem.get("num"));
+                map.put(tem.get("type").toString(),tem.get("num").toString());
+            }
+        }
+
+        return map;
+    }
+
+
+
+    @GetMapping("/getObject")
+    public Object getStudent2(@RequestParam("id") Integer id) {
+        log.info("----  调用单个查询接口,id:{} -----",id);
+        Object result = studentService.getById(id);
+        return result;
+    }
 }
